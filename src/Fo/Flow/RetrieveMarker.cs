@@ -1,6 +1,7 @@
 namespace Fonet.Fo.Flow
 {
     using System.Collections;
+    using System.Collections.Generic;
     using Fonet.Fo.Pagination;
     using Fonet.Fo.Properties;
     using Fonet.Layout;
@@ -105,7 +106,7 @@ namespace Fonet.Fo.Flow
 
         private Marker SearchPage(Page page)
         {
-            ArrayList pageMarkers = page.getMarkers();
+            List<Marker> pageMarkers = page.getMarkers();
             if (pageMarkers.Count == 0)
             {
                 return null;
@@ -115,7 +116,7 @@ namespace Fonet.Fo.Flow
             {
                 for (int i = 0; i < pageMarkers.Count; i++)
                 {
-                    Marker currentMarker = (Marker)pageMarkers[i];
+                    Marker currentMarker = pageMarkers[i];
                     if (currentMarker.GetMarkerClassName().Equals(retrieveClassName))
                     {
                         return currentMarker;
@@ -126,7 +127,7 @@ namespace Fonet.Fo.Flow
             {
                 for (int c = 0; c < pageMarkers.Count; c++)
                 {
-                    Marker currentMarker = (Marker)pageMarkers[c];
+                    Marker currentMarker = pageMarkers[c];
                     if (currentMarker.GetMarkerClassName().Equals(retrieveClassName))
                     {
                         if (currentMarker.GetRegistryArea().isFirst())
@@ -140,7 +141,7 @@ namespace Fonet.Fo.Flow
             {
                 for (int c = pageMarkers.Count - 1; c >= 0; c--)
                 {
-                    Marker currentMarker = (Marker)pageMarkers[c];
+                    Marker currentMarker = pageMarkers[c];
                     if (currentMarker.GetMarkerClassName().Equals(retrieveClassName))
                     {
                         if (currentMarker.GetRegistryArea().isFirst())
@@ -155,7 +156,7 @@ namespace Fonet.Fo.Flow
             {
                 for (int c = pageMarkers.Count - 1; c >= 0; c--)
                 {
-                    Marker currentMarker = (Marker)pageMarkers[c];
+                    Marker currentMarker = pageMarkers[c];
                     if (currentMarker.GetMarkerClassName().Equals(retrieveClassName))
                     {
                         if (currentMarker.GetRegistryArea().isLast())

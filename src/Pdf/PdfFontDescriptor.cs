@@ -2,7 +2,6 @@ namespace Fonet.Pdf
 {
     public class PdfFontDescriptor : PdfDictionary
     {
-        // TODO: pass in a PdfName instead
         public PdfFontDescriptor(
             string fontName, PdfObjectId objectId)
             : base(objectId)

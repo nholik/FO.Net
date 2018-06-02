@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Concurrent;
 
 namespace Fonet.Fo.Properties
 {
@@ -35,28 +36,25 @@ namespace Fonet.Fo.Properties
             return p;
         }
 
-        private static Hashtable s_htKeywords;
+        private static ConcurrentDictionary<string, string> s_htKeywords = new ConcurrentDictionary<string, string>();
 
-        private static void initKeywords()
+        static GenericBorderWidth()
         {
-            s_htKeywords = new Hashtable(3);
+            //    s_htKeywords = new Hashtable(3);
 
-            s_htKeywords.Add("thin", "0.5pt");
+            s_htKeywords.GetOrAdd("thin", "0.5pt");
 
-            s_htKeywords.Add("medium", "1pt");
+            s_htKeywords.GetOrAdd("medium", "1pt");
 
-            s_htKeywords.Add("thick", "2pt");
+            s_htKeywords.GetOrAdd("thick", "2pt");
 
         }
 
         protected override string CheckValueKeywords(string keyword)
         {
-            if (s_htKeywords == null)
-            {
-                initKeywords();
-            }
-            string value = (string)s_htKeywords[keyword];
-            if (value == null)
+
+            string value;// = s_htKeywords[keyword];
+            if (!s_htKeywords.TryGetValue(keyword, out value))
             {
                 return base.CheckValueKeywords(keyword);
             }

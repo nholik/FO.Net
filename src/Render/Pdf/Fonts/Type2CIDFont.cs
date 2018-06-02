@@ -10,7 +10,6 @@ namespace Fonet.Render.Pdf.Fonts {
     ///     TrueType font format.
     /// </summary>
     /// <remarks>
-    ///     TODO: Support font subsetting
     /// </remarks>
     internal class Type2CIDFont : CIDFont, IFontDescriptor {
         public const string IdentityHEncoding = "Identity-H";

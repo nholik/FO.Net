@@ -9,7 +9,7 @@ namespace Fonet.Image
     /// Parses the contents of a JPEG image header to infer the colour 
     /// space and bits per pixel.
     /// </summary>
-    internal sealed class JpegParser : IDisposable
+    internal sealed class JpegParser
     {
         public const int M_SOF0 = 0xC0; /* Start Of Frame N */
         public const int M_SOF1 = 0xC1; /* N indicates which compression process */
@@ -209,7 +209,7 @@ namespace Fonet.Image
         {
             // Skip stream contents until we reach a FF tag
             int b = ms.ReadByte();
-            while (b != 0xFF)
+            while (b != 0xFF && ms.Position < ms.Length)
             {
                 b = ms.ReadByte();
             }
@@ -218,7 +218,7 @@ namespace Fonet.Image
             do
             {
                 b = ms.ReadByte();
-            } while (b == 0xFF);
+            } while (b == 0xFF && ms.Position < ms.Length);
 
             return b;
         }
@@ -239,21 +239,9 @@ namespace Fonet.Image
             // Skip all parameters
             ms.Seek(length - 2, SeekOrigin.Current);
         }
-
-		#region IDisposable members
-		public void Dispose()
-		{
-			this.headerInfo = null;
-			this.iccProfileData = null;
-			if(ms != null)
-				this.ms.Dispose();
-			ms = null;
-			this.headerInfo = null;
-		}
-		#endregion
     }
 
-    internal class JpegInfo : IDisposable
+    internal class JpegInfo
     {
         private int colourSpace = ColorSpace.DeviceUnknown;
         private int bitsPerSample;
@@ -348,12 +336,5 @@ namespace Fonet.Image
                 return height;
             }
         }
-
-		#region IDisposable members
-		public void Dispose()
-		{
-			this.profileData = null;
-		}
-		#endregion
     }
 }

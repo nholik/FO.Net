@@ -34,7 +34,6 @@ namespace Fonet.Image
              * Historically, XSL has also accepted just URI without
              * the url() specifier.  We handle this syntax also.
              * 
-             * TODO: Replace this with a regexp.
              */
             href = href.Trim();
             if (href.StartsWith("url(") && (href.IndexOf(')') != -1))

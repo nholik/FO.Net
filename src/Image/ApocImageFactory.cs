@@ -31,13 +31,13 @@ namespace Fonet.Image
         /// <param name="href">A Uniform Resource Identifier</param>
         /// <returns>A reference to a  FonetImage</returns>
         /// <exception cref="FonetImageException"></exception>
-        public static FonetImage Make(string href)
+        public static FonetImage Make(string href, Func<string, byte[]> imageHandler = null)
         {
             // If an image handler has been registered on the driver, then
             // give it a chance to handle the loading of image data.
-            if (FonetDriver.ActiveDriver.ImageHandler != null)
+            if (imageHandler != null)//FonetDriver.ActiveDriver.ImageHandler
             {
-                byte[] data = FonetDriver.ActiveDriver.ImageHandler(href);
+                byte[] data = imageHandler(href); // FonetDriver.ActiveDriver.ImageHandler(href);
                 if (data != null)
                 {
                     return new FonetImage(href, data);
@@ -84,7 +84,7 @@ namespace Fonet.Image
                 ExtractImageData(absoluteURL));
         }
 
-		private static T GetImageStream<T>(Uri uri, Converter<Stream, T> loader)
+        private static Stream GetImageStream(Uri uri)
         {
             try
             {
@@ -96,13 +96,9 @@ namespace Fonet.Image
                 // Apply authentication credentials.
                 request.Credentials = FonetDriver.ActiveDriver.Credentials;
 
-				using(WebResponse response = request.GetResponse())
-				{
-					using(Stream stream = response.GetResponseStream())
-					{
-						return loader(stream);
-					}
-				}
+                WebResponse response = request.GetResponse();
+
+                return response.GetResponseStream();
             }
             catch (SecurityException se)
             {
@@ -129,25 +125,34 @@ namespace Fonet.Image
 
         private static byte[] ExtractImageData(Uri absoluteURL)
         {
-			// Otherwise load the image data using a WebRequest.
-			return GetImageStream<byte[]>(
-				absoluteURL,
-				delegate(Stream imageStream)
-				{
-					using(MemoryStream ms = new MemoryStream())
-					{
-						byte[] buf = new byte[4096];
-						int numBytesRead = 0;
+            // Otherwise load the image data using a WebRequest.
+            Stream imageStream = GetImageStream(absoluteURL);
 
-						// Read contents of JPEG into MemoryStream
-						while((numBytesRead = imageStream.Read(buf, 0, 4096)) != 0)
-						{
-							ms.Write(buf, 0, numBytesRead);
-						}
+            // Read the data stream into a byte array.
+            try
+            {
+                MemoryStream ms = new MemoryStream();
+                byte[] buf = new byte[4096];
+                int numBytesRead = 0;
 
-						return ms.ToArray();
-					}
-				});
+                // Read contents of JPEG into MemoryStream
+                while ((numBytesRead = imageStream.Read(buf, 0, 4096)) != 0)
+                {
+                    ms.Write(buf, 0, numBytesRead);
+                }
+
+                ms.Flush();
+                ms.Close();
+
+                return ms.ToArray();
+
+            }
+            finally
+            {
+                imageStream.Flush();
+                imageStream.Close();
+                imageStream = null;
+            }
         }
     }
 }

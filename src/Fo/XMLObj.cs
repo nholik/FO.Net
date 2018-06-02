@@ -31,7 +31,7 @@ namespace Fonet.Fo
             this.doc = doc;
         }
 
-        public void buildTopLevel(XmlDocument doc, XmlNode svgRoot) { }
+       // public void buildTopLevel(XmlDocument doc, XmlNode svgRoot) { }
 
         public XmlDocument CreateBasicDocument()
         {
@@ -40,7 +40,7 @@ namespace Fonet.Fo
                 doc = new XmlDocument();
                 doc.AppendChild(doc.CreateElement("graph", NS));
                 element = doc.DocumentElement;
-                buildTopLevel(doc, element);
+             //   buildTopLevel(doc, element);
             }
             catch (Exception e)
             {
@@ -51,9 +51,10 @@ namespace Fonet.Fo
 
         protected internal override void AddChild(FONode child)
         {
-            if (child is XMLObj)
+            var xmlChild = child as XMLObj;
+            if (xmlChild != null)
             {
-                ((XMLObj)child).addGraphic(doc, element);
+                xmlChild.addGraphic(doc, element);
             }
         }
 

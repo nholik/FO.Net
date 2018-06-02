@@ -81,7 +81,6 @@ namespace Fonet.Render.Pdf.Fonts {
                 replaceFont = true;
             }
 
-            // TODO: Do not permit subsetting if license does not allow it
             if (realFont is Type2CIDSubsetFont && !descriptor.IsSubsettable) {
                 FonetDriver.ActiveDriver.FireFonetWarning(
                     String.Format("Unable to subset font '{0}' because the license states subsetting is not allowed..  Will default to Helvetica.", realFont.FontName));

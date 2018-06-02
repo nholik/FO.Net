@@ -9,12 +9,6 @@ namespace Fonet.Pdf.Gdi {
             IntPtr hWnd // handle to window
             );
 
-        [DllImport("User32.dll", CharSet = CharSet.Auto)]
-        internal static extern bool ReleaseDC(
-            IntPtr hWnd, // handle to window
-            IntPtr hDC // handle to DC
-            );
-
         [DllImport("gdi32.dll", CharSet=CharSet.Auto)]
         internal static extern uint GetFontData(
             IntPtr hdc, // handle to DC
@@ -101,8 +95,8 @@ namespace Fonet.Pdf.Gdi {
         internal static extern bool DeleteDC(
             IntPtr hdc // handle to DC
             );
-		
-        [DllImport("gdi32.dll", CharSet = CharSet.Auto)]
+
+        [DllImport("gdi32.dll", CharSet=CharSet.Auto)]
         internal static extern int EnumFontFamilies(
             IntPtr hdc, // handle to DC
             [MarshalAs(UnmanagedType.LPTStr)]

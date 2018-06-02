@@ -32,10 +32,12 @@ namespace Fonet.Pdf.Gdi {
         }
 
         protected virtual void Dispose(bool disposing) {
-            if (hFont != IntPtr.Zero) {
-                //Console.WriteLine("Dispoing of font {0}, {1}pt ({2})", faceName, height, hFont);
-                LibWrapper.DeleteObject(hFont);
-                hFont = IntPtr.Zero;
+            if (disposing) {
+                if (hFont != IntPtr.Zero) {
+                    //Console.WriteLine("Dispoing of font {0}, {1}pt ({2})", faceName, height, hFont);
+                    LibWrapper.DeleteObject(hFont);
+                    hFont = IntPtr.Zero;
+                }
             }
         }
 
@@ -66,7 +68,6 @@ namespace Fonet.Pdf.Gdi {
         /// <param name="faceName">The typeface name of a font.</param>
         /// <returns></returns>
         public static GdiFont CreateDesignFont(string faceName, bool bold, bool italic, GdiDeviceContent dc) {
-            // TODO: Is there a simpler method of obtaining the em-sqaure?
             GdiFont tempFont = GdiFont.CreateFont(faceName, 2048, bold, italic);
             dc.SelectFont(tempFont);
             GdiFontMetrics metrics = tempFont.GetMetrics(dc);

@@ -39,7 +39,6 @@ namespace Fonet.Layout
         }
 
         /// <summary>
-        ///     TODO: The thickness, measured horizontally, of the dominant vertical 
         ///     stems of the glyphs in the font.
         /// </summary>
         int StemV

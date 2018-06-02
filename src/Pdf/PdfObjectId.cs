@@ -28,7 +28,6 @@ namespace Fonet.Pdf
             get { return generationNumber; }
         }
 
-        // TODO: implement equals/hashcode etc.
 
     }
 }

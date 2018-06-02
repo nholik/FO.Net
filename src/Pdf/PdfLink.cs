@@ -3,7 +3,6 @@ using System.Drawing;
 
 namespace Fonet.Pdf
 {
-    // TODO: rename to PdfLinkAnnotation?
     public sealed class PdfLink : PdfDictionary
     {
         private static readonly PdfArray DefaultColor;

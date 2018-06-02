@@ -20,7 +20,8 @@ namespace Fonet.Fo.Flow
         private string id;
         private ImageArea imageArea;
 
-        public ExternalGraphic(FObj parent, PropertyList propertyList) : base(parent, propertyList)
+        public ExternalGraphic(FObj parent, PropertyList propertyList)
+            : base(parent, propertyList)
         {
             this.name = "fo:external-graphic";
         }
@@ -59,7 +60,7 @@ namespace Fonet.Fo.Flow
 
             try
             {
-                FonetImage img = FonetImageFactory.Make(src);
+                FonetImage img = FonetImageFactory.Make(src, this.ImageHandler);
                 if ((width == 0) || (height == 0))
                 {
                     double imgWidth = img.Width;

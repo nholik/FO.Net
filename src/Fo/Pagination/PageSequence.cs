@@ -123,7 +123,7 @@ namespace Fonet.Fo.Pagination
             IsFlowSet = true;
         }
 
-        public void Format(AreaTree areaTree)
+        public void Format(AreaTree areaTree, Func<string, byte[]> imagehandler = null)
         {
             Status status = new Status(Status.OK);
 
@@ -213,6 +213,7 @@ namespace Fonet.Fo.Pagination
                     }
                     else
                     {
+                        flow.ImageHandler = imagehandler;
                         status = flow.Layout(bodyArea);
                     }
 

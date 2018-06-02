@@ -1,5 +1,6 @@
 using System.Collections;
 using Fonet.DataTypes;
+using System.Collections.Generic;
 
 namespace Fonet.Fo.Properties
 {
@@ -29,24 +30,18 @@ namespace Fonet.Fo.Properties
 
         }
 
-        private static Hashtable s_htKeywords;
+        private static Dictionary<string, string> s_htKeywords = new Dictionary<string, string>();
 
-        private static void initKeywords()
+        static LineHeightMaker()
         {
-            s_htKeywords = new Hashtable(1);
-
             s_htKeywords.Add("normal", "1.2em");
-
         }
 
         protected override string CheckValueKeywords(string keyword)
         {
-            if (s_htKeywords == null)
-            {
-                initKeywords();
-            }
-            string value = (string)s_htKeywords[keyword];
-            if (value == null)
+
+            string value;// = (string)s_htKeywords[keyword];
+            if (!s_htKeywords.TryGetValue(keyword, out value))
             {
                 return base.CheckValueKeywords(keyword);
             }

@@ -39,11 +39,7 @@ namespace Fonet.Pdf
             streamData.WriteLine(obj);
         }
 
-        /// <summary>
-        ///     TODO: This method is temporary.  I'm assuming that all string should 
-        ///     be represented as a PdfString object?
-        /// </summary>
-        /// <param name="s"></param>
+        
         public void Write(string s)
         {
             streamData.Write(Encoding.Default.GetBytes(s));

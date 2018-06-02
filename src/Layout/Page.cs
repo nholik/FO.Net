@@ -1,6 +1,7 @@
 namespace Fonet.Layout
 {
     using System.Collections;
+    using System.Collections.Generic;
     using Fonet.DataTypes;
     using Fonet.Fo.Flow;
     using Fonet.Fo.Pagination;
@@ -22,14 +23,14 @@ namespace Fonet.Layout
         protected ArrayList linkSets = new ArrayList();
         private ArrayList idList = new ArrayList();
         private ArrayList footnotes = null;
-        private ArrayList markers = null;
+        private List<Marker> markers = null;
 
         internal Page(AreaTree areaTree, int height, int width)
         {
             this.areaTree = areaTree;
             this.height = height;
             this.width = width;
-            markers = new ArrayList();
+            markers = new List<Marker>();
         }
 
         public IDReferences getIDReferences()
@@ -215,7 +216,12 @@ namespace Fonet.Layout
             markers.Add(marker);
         }
 
-        public ArrayList getMarkers()
+        //public ArrayList getMarkers()
+        //{
+        //    return this.markers;
+        //}
+
+        public List<Marker> getMarkers()
         {
             return this.markers;
         }

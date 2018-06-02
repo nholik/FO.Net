@@ -88,7 +88,6 @@ namespace Fonet.Pdf.Gdi {
         public int ItalicAngle {
             get {
                 EnsurePostTable();
-                // TODO: Is the italic angle always a whole number?
                 return converter.ToPdfUnits((int) post.ItalicAngle);
             }
         }
@@ -137,13 +136,9 @@ namespace Fonet.Pdf.Gdi {
             }
         }
 
-        /// <summary>
-        ///     TODO: The thickness, measured horizontally, of the dominant vertical 
-        ///     stems of the glyphs in the font.
-        /// </summary>
+      
         public int StemV {
             get {
-                // TODO: Must be calculated somehow.
                 return converter.ToPdfUnits(0);
             }
         }
@@ -173,7 +168,6 @@ namespace Fonet.Pdf.Gdi {
         /// </summary>
         public int AverageWidth {
             get {
-                // TODO
                 return 0;
             }
         }
@@ -183,7 +177,6 @@ namespace Fonet.Pdf.Gdi {
         /// </summary>
         public int MaxWidth {
             get {
-                // TODO: Could calculate from bounding box?
                 return 0;
             }
         }
@@ -345,7 +338,6 @@ namespace Fonet.Pdf.Gdi {
                     // Maps a unicode character to a codepoint value
                     WinAnsiMapping mapping = WinAnsiMapping.Mapping;
 
-                    // TODO: Loop represents a cartesian product (256^2 = 65536)
                     for (int i = 0; i < 256; i++) {
                         // Glyph index of character i
                         ushort leftIndex = ranges.MapCharacter((char) i);

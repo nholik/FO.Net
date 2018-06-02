@@ -32,7 +32,7 @@ namespace Fonet.Pdf
             int count = 0;
             for (int x = 0; x < kids.Count; x++)
             {
-                count++; // TODO: test if it is a leaf.
+                count++; 
             }
             this[PdfName.Names.Count] = new PdfNumeric(count);
 

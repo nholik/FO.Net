@@ -259,7 +259,6 @@ namespace Fonet.Pdf.Security
             if (password != null)
             {
                 // Copy the first 32 characters to the result array.
-                // TODO: what encoding should be used for non-ascii 
                 // characters in the password?
                 int pl = password.Length < 32 ? password.Length : 32;
                 Encoding.ASCII.GetBytes(password, 0, pl, result, 0);

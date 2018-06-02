@@ -88,9 +88,6 @@ namespace Fonet.Render.Pdf {
         /// <summary>
         ///     Reusable word area string buffer to reduce memory usage.
         /// </summary>
-        /// <remarks>
-        ///     TODO: remove use of this.
-        /// </remarks>
         private StringBuilder _wordAreaPDF = new StringBuilder();
 
         /// <summary>
@@ -515,7 +512,6 @@ namespace Fonet.Render.Pdf {
         public void RenderForeignObjectArea(ForeignObjectArea area) {
             // if necessary need to scale and align the content
             this.currentXPosition = this.currentXPosition + area.getXOffset();
-            // TODO: why was this here? this.currentYPosition = this.currentYPosition;
             switch (area.getAlign()) {
                 case TextAlign.START:
                     break;
@@ -581,7 +577,6 @@ namespace Fonet.Render.Pdf {
         */
 
         public void RenderWordArea(WordArea area) {
-            // TODO: I don't understand why we are locking the private member
             // _wordAreaPDF.  Maybe this string buffer was originally static? (MG)
             lock (_wordAreaPDF) {
                 StringBuilder pdf = _wordAreaPDF;

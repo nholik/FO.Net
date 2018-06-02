@@ -15,7 +15,8 @@ namespace Fonet.Fo.Flow
         protected RowSpanMgr rowSpanMgr;
         protected AreaContainer areaContainer;
 
-        public AbstractTableBody(FObj parent, PropertyList propertyList) : base(parent, propertyList)
+        public AbstractTableBody(FObj parent, PropertyList propertyList)
+            : base(parent, propertyList)
         {
             if (!(parent is Table))
             {
@@ -118,17 +119,22 @@ namespace Fonet.Fo.Flow
             bool endKeepGroup = true;
             for (int i = this.marker; i < numChildren; i++)
             {
-                Object child = children[i];
-                if (child is Marker)
+                //  FONode child = children[i];
+                Marker childMarker = children[i] as Marker;
+
+                if (childMarker != null)
                 {
-                    ((Marker)child).Layout(area);
+                    childMarker.Layout(area);
                     continue;
                 }
-                if (!(child is TableRow))
+
+                TableRow row = children[i] as TableRow;
+                if (row == null)
                 {
                     throw new FonetException("Currently only Table Rows are supported in table body, header and footer");
                 }
-                TableRow row = (TableRow)child;
+
+                //TableRow row = (TableRow)child;
 
                 row.SetRowSpanMgr(rowSpanMgr);
                 row.SetColumns(columns);
@@ -155,7 +161,7 @@ namespace Fonet.Fo.Flow
                 bool bRowStartsArea = (i == this.marker);
                 if (bRowStartsArea == false && keepWith.Count > 0)
                 {
-                    if (children.IndexOf(keepWith[0]) == this.marker)
+                    if (children.IndexOf(keepWith[0] as FONode) == this.marker)
                     {
                         bRowStartsArea = true;
                     }
@@ -214,8 +220,7 @@ namespace Fonet.Fo.Flow
 
                     return status;
                 }
-                else if (status.getCode() == Status.KEEP_WITH_NEXT
-                    || rowSpanMgr.HasUnfinishedSpans())
+                else if (status.getCode() == Status.KEEP_WITH_NEXT || rowSpanMgr.HasUnfinishedSpans())
                 {
                     keepWith.Add(row, null);
                     endKeepGroup = false;
@@ -225,8 +230,7 @@ namespace Fonet.Fo.Flow
                     endKeepGroup = true;
                 }
                 lastRow = row;
-                area.setMaxHeight(area.getMaxHeight() - spaceLeft
-                    + this.areaContainer.getMaxHeight());
+                area.setMaxHeight(area.getMaxHeight() - spaceLeft + areaContainer.getMaxHeight());
                 spaceLeft = area.spaceLeft();
             }
             area.addChild(areaContainer);
@@ -273,8 +277,8 @@ namespace Fonet.Fo.Flow
             while ((parent = area.getParent()) != null &&
                 parent.hasNonSpaceChildren() == false)
             {
-                if (parent is AreaContainer &&
-                    ((AreaContainer)parent).getPosition() == Position.ABSOLUTE)
+                var ac = parent as AreaContainer;
+                if (ac != null && ac.getPosition() == Position.ABSOLUTE)
                 {
                     return true;
                 }

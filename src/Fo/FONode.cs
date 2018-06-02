@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Fonet.Layout;
 
 namespace Fonet.Fo
@@ -10,7 +11,7 @@ namespace Fonet.Fo
 
         protected string areaClass = AreaClass.UNASSIGNED;
 
-        protected ArrayList children = new ArrayList();
+        protected List<FONode> children = new List<FONode>();
 
         public const int MarkerStart = -1000;
 
@@ -32,6 +33,29 @@ namespace Fonet.Fo
 
         public int areasGenerated = 0;
 
+        private Func<string, byte[]> _imageHandler;
+        public Func<string, byte[]> ImageHandler
+        {
+            get
+            {
+                return _imageHandler;
+            }
+            set
+            {
+                _imageHandler = value;
+
+                if (children != null)
+                {
+                    for (int i = 0; i < children.Count; i++)
+                    {
+                        var node = children[i] as FONode;
+                        if (node != null)
+                            node.ImageHandler = value;
+                    }
+                }
+            }
+        }
+
         protected FONode(FObj parent)
         {
             this.parent = parent;
@@ -39,6 +63,7 @@ namespace Fonet.Fo
             if (null != parent)
             {
                 this.areaClass = parent.areaClass;
+                _imageHandler = parent.ImageHandler;
             }
         }
 
@@ -137,7 +162,7 @@ namespace Fonet.Fo
             }
             else
             {
-                return ((FONode)children[this.marker]).getMarkerSnapshot(snapshot);
+                return children[this.marker].getMarkerSnapshot(snapshot);
             }
         }
 
@@ -164,10 +189,10 @@ namespace Fonet.Fo
             int numChildren = children.Count;
             for (int i = this.marker + 1; i < numChildren; i++)
             {
-                FONode fo = (FONode)children[i];
+                FONode fo = children[i];
                 fo.ResetMarker();
             }
-            ((FONode)children[this.marker]).Rollback(snapshot);
+            children[this.marker].Rollback(snapshot);
         }
 
         public virtual bool MayPrecedeMarker()

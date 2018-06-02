@@ -2,12 +2,14 @@ namespace Fonet
 {
 
     using System.Collections;
+    using System.Collections.Generic;
     using Fonet.Apps;
     using Fonet.DataTypes;
     using Fonet.Fo.Flow;
     using Fonet.Fo.Pagination;
     using Fonet.Layout;
     using Fonet.Render.Pdf;
+    using System;
 
     /// <summary>
     ///     This class acts as a bridge between the XML:FO parser and the 
@@ -59,9 +61,19 @@ namespace Fonet
         private ArrayList currentPageSequenceMarkers;
         private PageSequence currentPageSequence;
 
+        private Func<string, byte[]> _imageHandler;
+
         public StreamRenderer(PdfRenderer renderer)
+            : this(renderer, null)
+        {
+            //  this.renderer = renderer;
+        }
+
+        public StreamRenderer(PdfRenderer renderer, Func<string, byte[]> imageHandler)
         {
             this.renderer = renderer;
+            _imageHandler = imageHandler;
+
         }
 
         public IDReferences GetIDReferences()
@@ -103,8 +115,8 @@ namespace Fonet
         {
             AreaTree a = new AreaTree(this);
             a.setFontInfo(fontInfo);
-
-            pageSequence.Format(a);
+            pageSequence.ImageHandler = _imageHandler;
+            pageSequence.Format(a, _imageHandler);
 
             this.results.HaveFormattedPageSequence(pageSequence);
 
@@ -121,7 +133,7 @@ namespace Fonet
                 currentPageSequence = pageSequence;
                 currentPageSequenceMarkers = null;
             }
-            ArrayList markers = page.getMarkers();
+            List<Marker> markers = page.getMarkers();
             if (markers != null)
             {
                 if (documentMarkers == null)
@@ -134,7 +146,7 @@ namespace Fonet
                 }
                 for (int i = 0; i < markers.Count; i++)
                 {
-                    Marker marker = (Marker)markers[i];
+                    Marker marker = markers[i];
                     marker.releaseRegistryArea();
                     currentPageSequenceMarkers.Add(marker);
                     documentMarkers.Add(marker);

@@ -1,5 +1,6 @@
 namespace Fonet.Fo.Flow
 {
+    using System;
     using System.Collections;
     using Fonet.Fo.Pagination;
     using Fonet.Layout;
@@ -72,6 +73,9 @@ namespace Fonet.Fo.Flow
             }
         }
 
+
+     //   public Func<string, byte[]> ImageHandler;
+
         public string GetFlowName()
         {
             return _flowName;
@@ -102,6 +106,7 @@ namespace Fonet.Fo.Flow
             for (int i = this.marker; i < numChildren; i++)
             {
                 FObj fo = (FObj)children[i];
+                fo.ImageHandler = ImageHandler;
 
                 if (bac.isBalancingRequired(fo))
                 {

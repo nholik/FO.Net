@@ -2,10 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 
 namespace Fonet.Pdf.Gdi {
-    /// <summary>
-    ///     TODO: Figure out why CreateFontIndirect fails when this class 
-    ///     is converted to a struct.
-    /// </summary>
+  
     [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto)]
     internal class LogFont {
         public int lfHeight = 0;

@@ -93,7 +93,6 @@ namespace Fonet.Pdf.Gdi.Font {
             FontFileStream stream = writer.Stream;
             stream.WriteFixed(versionNo);
             stream.WriteFixed(fontRevision);
-            // TODO: Calculate based on entire font 
             stream.WriteULong(0);
             stream.WriteULong(0x5F0F3CF5);
             stream.WriteUShort(flags);
@@ -107,7 +106,6 @@ namespace Fonet.Pdf.Gdi.Font {
             stream.WriteUShort(macStyle);
             stream.WriteUShort(lowestRecPPEM);
             stream.WriteShort(fontDirectionHint);
-            // TODO: Always write loca offsets as ulongs
             stream.WriteShort(1);
             stream.WriteShort(glyphDataFormat);
         }

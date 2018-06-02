@@ -20,6 +20,8 @@ namespace Fonet.Fo
             return new Maker();
         }
 
+     //   public Func<string, byte[]> ImageHandler;
+
         public PropertyList properties;
 
         protected PropertyManager propMgr;

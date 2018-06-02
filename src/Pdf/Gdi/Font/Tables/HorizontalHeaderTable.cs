@@ -107,7 +107,6 @@ namespace Fonet.Pdf.Gdi.Font {
             caretSlopeRise = stream.ReadShort();
             caretSlopeRun = stream.ReadShort();
             caretOffset = stream.ReadShort();
-            // TODO: Check these 4 fields are all 0
             stream.ReadShort();
             stream.ReadShort();
             stream.ReadShort();
@@ -130,7 +129,6 @@ namespace Fonet.Pdf.Gdi.Font {
             stream.WriteShort(caretSlopeRise);
             stream.WriteShort(caretSlopeRun);
             stream.WriteShort(caretOffset);
-            // TODO: Check these 4 fields are all 0
             stream.WriteShort(0);
             stream.WriteShort(0);
             stream.WriteShort(0);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Fonet.DataTypes;
+using System.Collections.Concurrent;
 
 namespace Fonet.Fo.Properties
 {
@@ -22,28 +23,26 @@ namespace Fonet.Fo.Properties
         {
             protected internal SP_LengthMaker(string sPropName) : base(sPropName) { }
 
-            private static Hashtable s_htKeywords;
+            //private static Hashtable s_htKeywords;
 
-            private static void initKeywords()
-            {
-                s_htKeywords = new Hashtable(3);
+            //static SP_LengthMaker()
+            //{
+            //    s_htKeywords = new Hashtable(3);
 
-                s_htKeywords.Add("thin", "0.5pt");
+            //    s_htKeywords.Add("thin", "0.5pt");
 
-                s_htKeywords.Add("medium", "1pt");
+            //    s_htKeywords.Add("medium", "1pt");
 
-                s_htKeywords.Add("thick", "2pt");
+            //    s_htKeywords.Add("thick", "2pt");
 
-            }
+            //}
 
             protected override string CheckValueKeywords(string keyword)
             {
-                if (s_htKeywords == null)
-                {
-                    initKeywords();
-                }
-                string value = (string)s_htKeywords[keyword];
-                if (value == null)
+
+                string value;
+
+                if (!GenericCondBorderWidth.s_htKeywords.TryGetValue(keyword, out value))
                 {
                     return base.CheckValueKeywords(keyword);
                 }
@@ -209,27 +208,23 @@ namespace Fonet.Fo.Properties
             return false;
         }
 
-        private static Hashtable s_htKeywords;
+        private static ConcurrentDictionary<string, string> s_htKeywords = new ConcurrentDictionary<string, string>();
 
-        private static void initKeywords()
+        static GenericCondBorderWidth()
         {
-            s_htKeywords = new Hashtable(3);
 
-            s_htKeywords.Add("thin", "0.5pt");
+            s_htKeywords.GetOrAdd("thin", "0.5pt");
 
-            s_htKeywords.Add("medium", "1pt");
+            s_htKeywords.GetOrAdd("medium", "1pt");
 
-            s_htKeywords.Add("thick", "2pt");
+            s_htKeywords.GetOrAdd("thick", "2pt");
+
         }
 
         protected override string CheckValueKeywords(string keyword)
         {
-            if (s_htKeywords == null)
-            {
-                initKeywords();
-            }
-            string value = (string)s_htKeywords[keyword];
-            if (value == null)
+            string value;
+            if (!s_htKeywords.TryGetValue(keyword, out value))
             {
                 return base.CheckValueKeywords(keyword);
             }

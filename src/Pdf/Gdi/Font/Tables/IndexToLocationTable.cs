@@ -48,7 +48,6 @@ namespace Fonet.Pdf.Gdi.Font {
         }
 
         protected internal override void Write(FontFileWriter writer) {
-            // TODO: Determine short/long format
             foreach (uint offset in offsets) {
                 writer.Stream.WriteULong(offset);
             }

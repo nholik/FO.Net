@@ -1,16 +1,17 @@
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Fonet.Fo.Properties
 {
     internal class GenericColor : ColorTypeProperty.Maker
     {
-        private static Hashtable s_htKeywords;
+        private static Dictionary<string, string> s_htKeywords;
 
         protected GenericColor(string name) : base(name) { }
 
         static GenericColor()
         {
-            s_htKeywords = new Hashtable(147);
+            s_htKeywords = new Dictionary<string, string>();
             s_htKeywords.Add("aliceblue", "#f0f8ff");
             s_htKeywords.Add("antiquewhite", "#faebd7");
             s_htKeywords.Add("aqua", "#00ffff");
@@ -167,8 +168,8 @@ namespace Fonet.Fo.Properties
 
         protected override string CheckValueKeywords(string keyword)
         {
-            string val = (string)s_htKeywords[keyword];
-            if (val == null)
+            string val;// = s_htKeywords[keyword];
+            if (!s_htKeywords.TryGetValue(keyword, out val))
             {
                 return base.CheckValueKeywords(keyword);
             }

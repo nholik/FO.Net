@@ -43,8 +43,10 @@ namespace Fonet.Fo
         /// </summary>
         private StreamRenderer streamRenderer;
 
-        internal FOTreeBuilder() { }
+        internal FOTreeBuilder() : this(null) { }
 
+        private Func<string, byte[]> _imageHandler;
+        internal FOTreeBuilder(Func<string, byte[]> imageHandler) { _imageHandler = imageHandler; }
         /// <summary>
         ///     Sets the stream renderer that will be used as output.
         /// </summary>
@@ -170,9 +172,10 @@ namespace Fonet.Fo
                 // If it is a page-sequence, then we can finally render it.
                 // This is the biggest performance problem we have, we need
                 // to be able to render prior to this point.
-                if (currentFObj is PageSequence)
+                PageSequence pageSeq = currentFObj as PageSequence;
+                if (pageSeq != null)
                 {
-                    streamRenderer.Render((PageSequence)currentFObj);
+                    streamRenderer.Render(pageSeq);
 
                 }
 

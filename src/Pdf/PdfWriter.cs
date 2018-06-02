@@ -86,7 +86,7 @@ namespace Fonet.Pdf {
         }
 
         public void Write(decimal val) {
-            // TODO: This conversion could produce a number expressed
+            // This conversion could produce a number expressed
             // in scientific format which is not supported by PDF.
             Debug.Assert(val.ToString().IndexOfAny(new char[] {'e', 'E'}) == -1);
 

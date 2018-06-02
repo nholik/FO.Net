@@ -181,6 +181,7 @@ namespace Fonet.Fo.Flow
             for (int i = this.marker; i < numChildren; i++)
             {
                 FONode fo = (FONode)children[i];
+                
                 if (fo is TableHeader)
                 {
                     if (columns.Count == 0)
