@@ -2106,7 +2106,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="keypair.snk" />
-    <Content Include="Readme.md" />
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
